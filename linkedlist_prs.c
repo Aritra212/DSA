@@ -18,8 +18,6 @@ Nodeptr InsrtBefore(Nodeptr);   //Insert a node Before a specific position
 Nodeptr InsertAt(Nodeptr);      //Insert a node At the specific position
 Nodeptr DeleteBeg(Nodeptr);     //Delete a node from the Beginning of previously created list
 Nodeptr DeleteEnd(Nodeptr);     //Delete a node from the End of previously created list
-// void DeleteAffter(Nodeptr);     //Delete a node located Affter a specific position
-// Nodeptr DeleteBefore(Nodeptr);  //Delete a node located Before a specific position
 Nodeptr DeleteAt(Nodeptr);      //Delete a node from a specific position
 void Display(Nodeptr);          //Display the Linked List created by the user
 Nodeptr ReverseList(Nodeptr);   //Reverse the linked list
