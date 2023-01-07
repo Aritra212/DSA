@@ -1,3 +1,4 @@
+// Program to add two polynomial expressions using linked list
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -9,10 +10,10 @@ struct Node{
 };
 typedef struct Node *Nodeptr;
 
-Nodeptr CreateNode();
-Nodeptr CreatePoly();
-Nodeptr AddPoly(Nodeptr, Nodeptr);
-void Display(Nodeptr);
+Nodeptr CreateNode();               //Create a Node
+Nodeptr CreatePoly();               //Create a Polynomial Expression
+Nodeptr AddPoly(Nodeptr, Nodeptr);  //Add two Expressions
+void Display(Nodeptr);              //Display Polynomial Expression
 
 int main(){
     int n;
@@ -28,10 +29,12 @@ int main(){
         Display(l1);
         Display(l2);
         
+        ///////// Addition  ////////
         sum= AddPoly(l1,l2);
         printf("\n---------- After Addition ------------");
         Display(sum);
-
+        
+        //////// Handle Exit Condition  //////////
         printf("\nEnter '0' to exit: ");
         scanf("%d",&n);
         if(n == 0){
@@ -77,10 +80,15 @@ Nodeptr CreatePoly(){
 
 Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     int a,e;
-    Nodeptr ptr1,ptr2,ptr3,sum=NULL,temp;
+    Nodeptr ptr1,ptr2,ptr3,sum=NULL,temp;   
+    /* 'sum' is used as the starting pointer of a list which contains the result of addition operation.
+    'ptr3' is used to traverse the result linked list and 'temp' is used to hold newly created node.
+    'ptr1' & 'ptr2' is used to traverse the two expression list in one time */
+    
     ptr1=l1;
     ptr2=l2;
-    while(ptr1!=NULL && ptr2!=NULL){
+    while(ptr1!=NULL && ptr2!=NULL)    // Here in the condition part you can check only one condition either 'ptr1!=NULL' or 'ptr2!=NULL, two condition not required here
+    { 
         if(ptr1->exp == ptr2->exp){
             a= ptr1->coef+ ptr2->coef;
             e= ptr1->exp;
@@ -97,6 +105,8 @@ Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
             e= ptr2->exp;
             ptr2=ptr2->next;
         }
+        
+        ////// Create a new node and store the result to the sum linked list //////
         temp=CreateNode();
         temp->coef=a;
         temp->exp=e;
