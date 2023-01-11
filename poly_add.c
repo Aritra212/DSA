@@ -80,45 +80,63 @@ Nodeptr CreatePoly(){
 
 Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     int a,e;
-    Nodeptr ptr1,ptr2,ptr3,sum=NULL,temp;   
+    Nodeptr p,q,ptr,sum=NULL,temp,lp;   
     /* 'sum' is used as the starting pointer of a list which contains the result of addition operation.
     'ptr3' is used to traverse the result linked list and 'temp' is used to hold newly created node.
     'ptr1' & 'ptr2' is used to traverse the two expression list in one time */
     
-    ptr1=l1;
-    ptr2=l2;
-    while(ptr1!=NULL && ptr2!=NULL)    // Here in the condition part you can check only one condition either 'ptr1!=NULL' or 'ptr2!=NULL, two condition not required here
+    p=l1;
+    q=l2;
+    while(p!=NULL && q!=NULL)    // Here in the condition part you can check only one condition either 'ptr1!=NULL' or 'ptr2!=NULL, two condition not required here
     { 
-        if(ptr1->exp == ptr2->exp){
-            a= ptr1->coef+ ptr2->coef;
-            e= ptr1->exp;
-            ptr1=ptr1->next;
-            ptr2= ptr2->next;
+        if(p->exp == q->exp){
+            a= p->coef+ q->coef;
+            e= p->exp;
+            p=p->next;
+            q= q->next;
         }
-        else if(ptr1->exp > ptr2->exp){
-            a= ptr1->coef;
-            e= ptr1->exp;
-            ptr1=ptr1->next;
+        else if(p->exp > q->exp){
+            a= p->coef;
+            e= p->exp;
+            p=p->next;
         }
         else{
-            a= ptr2->coef;
-            e= ptr2->exp;
-            ptr2=ptr2->next;
+            a= q->coef;
+            e= q->exp;
+            q=q->next;
         }
         
         ////// Create a new node and store the result to the sum linked list //////
         temp=CreateNode();
         temp->coef=a;
         temp->exp=e;
-        ptr3=sum;
+        ptr=sum;
         if(sum==NULL){
             sum= temp;
+            //lp=sum;
         }
         else{
-            while(ptr3->next!=NULL){
-                ptr3= ptr3->next;
+            while(ptr->next!=NULL){
+                ptr= ptr->next;
             }
-            ptr3->next= temp;
+            ptr->next= temp;
+            //lp=ptr;
+        }
+    }
+    if(p!=NULL){
+        if(sum==NULL){
+            sum=p;
+        }
+        else{
+            temp->next= p;
+        }
+    }
+    if(q!=NULL){
+        if(sum==NULL){
+            sum=q;
+        }
+        else{
+            temp->next= q;
         }
     }
     return sum;
@@ -132,20 +150,22 @@ void Display(Nodeptr start){
     else{
         printf("\nThe polynomial expression is: ");
         while(temp!=NULL){
-            if(temp->exp==0){
-                printf("%d",temp->coef);
-            }
-            else if(temp->coef==1){
-                printf("x^%d",temp->exp);
-            }
-            else if(temp->exp==1){
-                printf("%dx",temp->coef);
-            }
-            else{
-                printf("%dx^%d",temp->coef,temp->exp);
-            }
-            if(temp->next!=NULL && temp->next->coef >=0){
-                printf("+");
+            if(temp->coef!=0){
+                if(temp->exp==0){
+                    printf("%d",temp->coef);
+                }
+                else if(temp->coef==1){
+                    printf("x^%d",temp->exp);
+                }
+                else if(temp->exp==1){
+                    printf("%dx",temp->coef);
+                }
+                else{
+                    printf("%dx^%d",temp->coef,temp->exp);
+                }
+                if(temp->next!=NULL && temp->next->coef >=0){
+                    printf("+");
+                }
             }
             temp= temp->next;
         }
