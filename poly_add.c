@@ -80,10 +80,10 @@ Nodeptr CreatePoly(){
 
 Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     int a,e;
-    Nodeptr p,q,ptr,sum=NULL,temp,lp;   
+    Nodeptr p,q,ptr,sum=NULL,temp;   
     /* 'sum' is used as the starting pointer of a list which contains the result of addition operation.
-    'ptr3' is used to traverse the result linked list and 'temp' is used to hold newly created node.
-    'ptr1' & 'ptr2' is used to traverse the two expression list in one time */
+    'ptr' is used to traverse the result linked list and 'temp' is used to hold newly created node.
+    'p' & 'q' is used to traverse the two expression list in one time */
     
     p=l1;
     q=l2;
@@ -113,14 +113,12 @@ Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
         ptr=sum;
         if(sum==NULL){
             sum= temp;
-            //lp=sum;
         }
         else{
             while(ptr->next!=NULL){
                 ptr= ptr->next;
             }
             ptr->next= temp;
-            //lp=ptr;
         }
     }
     if(p!=NULL){
