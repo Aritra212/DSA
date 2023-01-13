@@ -87,8 +87,7 @@ Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     
     p=l1;
     q=l2;
-    while(p!=NULL && q!=NULL)    // Here in the condition part you can check only one condition either 'ptr1!=NULL' or 'ptr2!=NULL, two condition not required here
-    { 
+    while(p!=NULL && q!=NULL){ 
         if(p->exp == q->exp){
             a= p->coef+ q->coef;
             e= p->exp;
