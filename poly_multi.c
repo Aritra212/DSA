@@ -1,4 +1,8 @@
-// Program to add two polynomial expressions using linked list
+// Program to mutiply two polynomial expressions using linked list
+/* Let's take two polynomial expression as example to know how the following code works
+    1st expression- ax^2 + bx + c = 0;
+    2nd expression- rx^2 + sx +c = 0;
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -10,10 +14,11 @@ struct Node{
 };
 typedef struct Node *Nodeptr;
 
-Nodeptr CreateNode();               //Create a Node
-Nodeptr CreatePoly();               //Create a Polynomial Expression
-Nodeptr PolyMulti(Nodeptr, Nodeptr);  //Add two Expressions
-void Display(Nodeptr);              //Display Polynomial Expression
+Nodeptr CreateNode();                   //Create a Node
+Nodeptr CreatePoly();                   //Create a Polynomial Expression
+Nodeptr Addpoly(Nodeptr, Nodeptr);      //Add two Expressions
+Nodeptr PolyMulti(Nodeptr, Nodeptr);    //Multiply two Expressions
+void Display(Nodeptr);                  //Display Polynomial Expression
 
 int main(){
     int n;
@@ -29,7 +34,7 @@ int main(){
         Display(l1);
         Display(l2);
         
-        ///////// Addition  ////////
+        ///////// Multiplication  ////////
         mul= PolyMulti(l1,l2);
         printf("\n-------- After Multiplication ---------");
         Display(mul);
@@ -82,12 +87,12 @@ Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     int a,e;
     Nodeptr p,q,ptr,sum=NULL,temp;   
     /* 'sum' is used as the starting pointer of a list which contains the result of addition operation.
-    'ptr3' is used to traverse the result linked list and 'temp' is used to hold newly created node.
-    'ptr1' & 'ptr2' is used to traverse the two expression list in one time */
+    'ptr' is used to traverse the result linked list and 'temp' is used to hold newly created node.
+    'p' & 'q' is used to traverse the two expression list in one time */
     
     p=l1;
     q=l2;
-    while(p!=NULL && q!=NULL)    // Here in the condition part you can check only one condition either 'ptr1!=NULL' or 'ptr2!=NULL, two condition not required here
+    while(p!=NULL && q!=NULL)
     { 
         if(p->exp == q->exp){
             a= p->coef+ q->coef;
@@ -140,20 +145,22 @@ Nodeptr AddPoly(Nodeptr l1, Nodeptr l2){
     return sum;
 }
 
+
 Nodeptr PolyMulti(Nodeptr l1, Nodeptr l2){
-    Nodeptr p,q,temp1,temp2,mul=NULL,ptr;
-    p=l1;
+    Nodeptr p,q,temp1,temp2,mul=NULL,ptr;   // 'mul' pointer holds the address of resultant link list
+    p=l1;   // p= ax^2 + bx + c = 0;
     while(p!=NULL){
         temp2=NULL;
-        q=l2;
-        while(q!=NULL){
-
-            ////// Create a new node and store the result to the sum linked list //////
+        q=l2;   //q= rx^2 + sx +c = 0;
+        while(q!=NULL)  // this loop multiply every term of q with each term of p once at a time (i.e. ax^2 * q )
+        {
+            ////// Create a new node and store the result to a linked list //////
             temp1=CreateNode();
 
-            temp1->coef= p->coef * q->coef;
-            temp1->exp= p->exp + q->exp;
-
+            temp1->coef= p->coef * q->coef; //storing the result coeficient of mutiplication into new node
+            temp1->exp= p->exp + q->exp;    //storing the result exponent of mutiplication into new node
+            
+            //insertion of new node
             ptr=temp2;
             if(temp2==NULL){
                 temp2= temp1;
@@ -166,6 +173,16 @@ Nodeptr PolyMulti(Nodeptr l1, Nodeptr l2){
             }
             q=q->next;
         }
+        
+        /* After performing multipliction of one term of p with every term of q we create a linked list and store the starting address to 'temp2'
+           Now we just need to Add two polynomial expression to remove multiple terms which has same exponets
+           
+           mul= mul+temp2 => mul= (ar.x^4 + as.x^3 + ac.x^2)+(br.x^3 + bs.x^2 + bc.x)
+                          => mul= ar.x^4 + (as+br)x^3 + (ac+bs)x^2 + bc.x   [reduced expression]
+                          
+           (***After the first execution of the above loop we don't need to do this step , just store the address stored in 'temp2' into 'mul',
+            because for first excution mull=0 so mul=mul+tem2 => mul=temp2) */
+        
         if(mul==NULL){
             mul=temp2;
         }
